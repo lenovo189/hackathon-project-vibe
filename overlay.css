@@ -1,0 +1,107 @@
+/* Overlay panel styles for in-page MiroMiro UI */
+
+#miromiro-hover-overlay {
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.5), 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#miromiro-floating-panel {
+    position: fixed;
+    z-index: 1000000;
+    min-width: 220px;
+    background: #f8fafc;
+    border-radius: 8px;
+    font-family: 'Inter', system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #6366f1;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+/* MiroMiro Clone - Floating Panel & Highlight Styles */
+
+/* Global Inspect Mode Styles */
+body.miromiro-inspect-mode {
+    cursor: crosshair !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}
+
+body.miromiro-inspect-mode * {
+    cursor: crosshair !important;
+}
+
+/* Miro UI Elements should keep default cursor */
+#miromiro-floating-panel,
+#miromiro-hover-overlay,
+.miro-highlight-rect {
+    cursor: default !important;
+}
+
+#miromiro-floating-panel.visible {
+    opacity: 1;
+}
+
+.miro-panel-header {
+    background: #1e293b;
+    color: white;
+    padding: 10px 14px;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+}
+
+.miro-panel-body {
+    padding: 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.miro-section-label {
+    grid-column: span 2;
+    font-size: 10px;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    margin-bottom: -6px;
+    margin-top: 4px;
+}
+
+.miro-section-label:first-child {
+    margin-top: 0;
+}
+
+.miro-value-text {
+    font-size: 13px;
+    color: #334155;
+    font-weight: 500;
+}
+
+.miro-color-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    grid-column: span 2;
+}
+
+.miro-color-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.miro-highlight-rect {
+    position: fixed;
+    pointer-events: none;
+    z-index: 999998;
+    border: 2px dashed #6366f1;
+    background: rgba(99, 102, 241, 0.05);
+}

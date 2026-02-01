@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiroMiro Inspector</title>
+    <link rel="stylesheet" href="popup.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <span class="logo-icon">M</span>
+                <h1>MiroMiro</h1>
+            </div>
+            <div class="controls">
+                <label class="switch">
+                    <input type="checkbox" id="inspect-toggle" checked>
+                    <span class="slider round"></span>
+                </label>
+                <span class="toggle-label">Inspect</span>
+            </div>
+
+        </header>
+
+        <main id="inspector-main">
+            <!-- Picker Tab -->
+            <div id="picker-tab" class="tab-content active">
+                <section class="element-meta">
+                    <div class="tag-row">
+                        <span id="tag-name" class="tag">div</span>
+                        <button id="save-btn" class="icon-btn" title="Save to Board">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                                <polyline points="17 21 17 13 7 13 7 21" />
+                                <polyline points="7 3 7 8 15 8" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="inner-text" class="text-preview">Hover over an element...</div>
+                </section>
+
+                <section class="styles-grid">
+                    <div class="style-item">
+                        <label>Color</label>
+                        <div class="value-row">
+                            <span id="style-color" class="style-value">#000000</span>
+                            <div id="color-preview" class="color-dot"></div>
+                        </div>
+                    </div>
+                    <div class="style-item">
+                        <label>Background</label>
+                        <div class="value-row">
+                            <span id="style-bg" class="style-value">transparent</span>
+                            <div id="bg-preview" class="color-dot"></div>
+                        </div>
+                    </div>
+                    <div class="style-item">
+                        <label>Font Size</label>
+                        <span id="style-font-size" class="style-value">16px</span>
+                    </div>
+                    <div class="style-item">
+                        <label>Padding</label>
+                        <span id="style-padding" class="style-value">0px</span>
+                    </div>
+                    <div class="style-item">
+                        <label>Margin</label>
+                        <span id="style-margin" class="style-value">0px</span>
+                    </div>
+                    <div class="style-item">
+                        <label>Contrast</label>
+                        <span id="style-contrast" class="style-value">N/A</span>
+                    </div>
+
+                    <div class="style-item full-width">
+                        <label>Font Family</label>
+                        <span id="style-font-family" class="style-value">sans-serif</span>
+                    </div>
+                </section>
+
+                <section class="actions">
+                    <button id="copy-css" class="primary-btn">Copy CSS</button>
+                    <button id="copy-tailwind" class="secondary-btn">Tailwind Utility</button>
+                </section>
+            </div>
+
+            <!-- Design Tab -->
+            <div id="design-tab" class="tab-content">
+                <section class="assets-section">
+                    <h3>Site Color Palette</h3>
+                    <div id="palette-container" class="palette-container">
+                        <!-- Colors will be injected here -->
+                    </div>
+                </section>
+                <section class="assets-section">
+                    <h3>Gradients & Vectors</h3>
+                    <div id="design-assets-container" class="assets-container">
+                        <!-- Gradients and SVGs will be injected here -->
+                    </div>
+                </section>
+            </div>
+
+            <!-- Media Tab -->
+            <div id="media-tab" class="tab-content">
+                <section class="assets-section">
+                    <h3>Media Assets</h3>
+                    <div id="media-assets-container" class="assets-container media-larger-grid">
+                        <!-- Images and Videos will be injected here -->
+                    </div>
+                </section>
+            </div>
+
+            <!-- AI Tab -->
+            <div id="ai-tab" class="tab-content">
+                <div class="ai-container">
+                    <div id="ai-api-missing" class="ai-setup-card">
+                        <h3>Gemini AI</h3>
+                        <p>To use AI features, please configure your Gemini API Key in the Settings tab.</p>
+                        <button id="go-to-settings" class="secondary-btn">Go to Settings</button>
+                    </div>
+
+                    <div id="ai-chat-interface" class="ai-chat-hidden">
+                        <div id="ai-chat-messages" class="chat-messages">
+                            <div class="message ai">
+                                Hello! I'm your Gemini assistant. How can I help you with your design today?
+                            </div>
+                        </div>
+
+                        <div id="ai-context-bar" class="context-bar">
+                            <!-- Selected labels will appear here -->
+                        </div>
+
+                        <div class="chat-input-area">
+                            <div class="input-actions">
+                                <button id="attach-element" class="tool-btn" title="Add Selected Component">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                                        </path>
+                                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                    </svg>
+                                </button>
+                                <button id="attach-image" class="tool-btn" title="Attach Image">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
+                                    </svg>
+                                </button>
+                                <input type="file" id="ai-image-input" hidden accept="image/*">
+                            </div>
+                            <textarea id="ai-query" placeholder="Ask AI to edit or analyze..." rows="1"></textarea>
+                            <button id="send-ai-query" class="send-btn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings-tab" class="tab-content">
+                <div class="settings-container">
+                    <div class="settings-group">
+                        <h3>AI Configuration</h3>
+                        <p>Manage your Gemini API Key for AI-powered features.</p>
+                        <div id="ai-api-setup" class="ai-setup-card no-margin">
+                            <div class="input-group">
+                                <input type="password" id="gemini-api-key" placeholder="Enter API Key...">
+                                <button id="save-api-key" class="primary-btn">Save Key</button>
+                            </div>
+                            <a href="https://aistudio.google.com/app/apikey" target="_blank" class="helper-link">Get a
+                                free key here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <nav class="tab-nav">
+            <button class="nav-item active" data-tab="picker">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
+                    </path>
+                </svg>
+                <span>Picker</span>
+            </button>
+            <button class="nav-item" data-tab="design">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                    <path d="M2 2l7.5 1.5"></path>
+                    <path d="M14.5 16.5l7.5 1.5"></path>
+                </svg>
+                <span>Design</span>
+            </button>
+            <button class="nav-item" data-tab="media">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+                <span>Media</span>
+            </button>
+            <button class="nav-item" data-tab="ai">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10 10 10 0 0 1-10-10 10 10 0 0 1 10-10z"></path>
+                    <path d="M12 16v-4"></path>
+                    <path d="M12 8h.01"></path>
+                    <path d="M9 12h6"></path>
+                </svg>
+                <span>AI</span>
+            </button>
+            <button class="nav-item" data-tab="settings">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
+                </svg>
+                <span>Settings</span>
+            </button>
+
+        </nav>
+
+        <footer>
+            <button id="export-json" class="ghost-btn">Export Board (JSON)</button>
+        </footer>
+    </div>
+    <script src="utils.js"></script>
+    <script src="popup.js"></script>
+</body>
+
+</html>
