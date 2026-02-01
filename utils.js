@@ -1,5 +1,5 @@
 /**
- * MiroMiro Clone - Utilities
+ * Lens - Utilities
  */
 
 function convertToTailwind(styles) {

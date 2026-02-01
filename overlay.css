@@ -1,10 +1,10 @@
-/* Overlay panel styles for in-page MiroMiro UI */
+/* Overlay panel styles for in-page Lens UI */
 
-#miromiro-hover-overlay {
+#lens-hover-overlay {
     box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.5), 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#miromiro-floating-panel {
+#lens-floating-panel {
     position: fixed;
     z-index: 1000000;
     min-width: 220px;
@@ -21,27 +21,27 @@
     transition: opacity 0.15s;
 }
 
-/* MiroMiro Clone - Floating Panel & Highlight Styles */
+/* Lens - Floating Panel & Highlight Styles */
 
 /* Global Inspect Mode Styles */
-body.miromiro-inspect-mode {
+body.lens-inspect-mode {
     cursor: crosshair !important;
     user-select: none !important;
     -webkit-user-select: none !important;
 }
 
-body.miromiro-inspect-mode * {
+body.lens-inspect-mode * {
     cursor: crosshair !important;
 }
 
 /* Miro UI Elements should keep default cursor */
-#miromiro-floating-panel,
-#miromiro-hover-overlay,
+#lens-floating-panel,
+#lens-hover-overlay,
 .miro-highlight-rect {
     cursor: default !important;
 }
 
-#miromiro-floating-panel.visible {
+#lens-floating-panel.visible {
     opacity: 1;
 }
 

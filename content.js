@@ -1,4 +1,4 @@
-console.log('[MiroMiro] content.js script loaded and running.');
+console.log('[Lens] content.js script loaded and running.');
 
 let lastMouseX = 0;
 let lastMouseY = 0;
@@ -12,11 +12,11 @@ let pickingForAI = false;
 // Consolidated state management
 function setInspectState(enabled) {
     inspectEnabled = !!enabled;
-    console.log('[MiroMiro] Inspect Mode:', inspectEnabled ? 'ENABLED' : 'DISABLED');
+    console.log('[Lens] Inspect Mode:', inspectEnabled ? 'ENABLED' : 'DISABLED');
 
     // Safety check for body
     if (document.body) {
-        document.body.classList.toggle('miromiro-inspect-mode', inspectEnabled);
+        document.body.classList.toggle('lens-inspect-mode', inspectEnabled);
     }
 
     if (!inspectEnabled) {
@@ -42,13 +42,13 @@ chrome.storage.onChanged.addListener((changes) => {
 
 // Sync via direct message (instant fallback)
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    console.log('[MiroMiro] Message received in content.js:', message);
+    console.log('[Lens] Message received in content.js:', message);
     const target = selectedElement || lastElement;
     if (message.action === 'setInspect') {
         setInspectState(message.enabled);
     } else if (message.action === 'applyStyles' && message.styles) {
         if (target) {
-            console.log('[MiroMiro] Applying AI styles:', message.styles);
+            console.log('[Lens] Applying AI styles:', message.styles);
             Object.entries(message.styles).forEach(([prop, value]) => {
                 target.style[prop] = value;
             });
@@ -57,17 +57,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
     } else if (message.action === 'applyEdits') {
         const edits = message.edits;
-        console.log('[MiroMiro] Applying AI edits:', edits);
+        console.log('[Lens] Applying AI edits:', edits);
 
         // Determine the target element for the edits
         let editTarget = null;
         if (edits.selector) {
             editTarget = document.querySelector(edits.selector);
             if (!editTarget) {
-                console.warn(`[MiroMiro] AI selector "${edits.selector}" did not find an element.`);
+                console.warn(`[Lens] AI selector "${edits.selector}" did not find an element.`);
             }
         }
-        
+
         // Fallback to the currently selected element if no selector is provided or found
         if (!editTarget) {
             editTarget = selectedElement || lastElement;
@@ -92,12 +92,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
             syncStoredElement(editTarget); // Sync with the element that was actually changed
         } else {
-            console.error('[MiroMiro] No target element found to apply edits.');
+            console.error('[Lens] No target element found to apply edits.');
         }
     } else if (message.action === 'startPickingForAI') {
         pickingForAI = true;
         setInspectState(true); // Ensure inspect is on
-        console.log('[MiroMiro] Picking for AI started');
+        console.log('[Lens] Picking for AI started');
     }
 });
 
@@ -116,16 +116,16 @@ function syncStoredElement(el) {
 
 // Initialize UI Elements
 function createUI() {
-    if (!document.getElementById('miromiro-hover-overlay')) {
+    if (!document.getElementById('lens-hover-overlay')) {
         overlayElement = document.createElement('div');
-        overlayElement.id = 'miromiro-hover-overlay';
+        overlayElement.id = 'lens-hover-overlay';
         overlayElement.className = 'miro-highlight-rect';
         document.documentElement.appendChild(overlayElement);
     }
 
-    if (!document.getElementById('miromiro-floating-panel')) {
+    if (!document.getElementById('lens-floating-panel')) {
         floatingPanel = document.createElement('div');
-        floatingPanel.id = 'miromiro-floating-panel';
+        floatingPanel.id = 'lens-floating-panel';
         floatingPanel.style.position = 'fixed';
         floatingPanel.style.zIndex = '999999';
         floatingPanel.style.pointerEvents = 'none';
@@ -346,7 +346,7 @@ function updateHighlight(el, mouseX, mouseY) {
 function handleInteraction(mouseX, mouseY) {
     if (!inspectEnabled) return;
     const el = document.elementFromPoint(mouseX, mouseY);
-    if (!el || !(el instanceof Element) || el === overlayElement || el === floatingPanel || (el.closest && el.closest('[id^="miromiro-"]'))) return;
+    if (!el || !(el instanceof Element) || el === overlayElement || el === floatingPanel || (el.closest && el.closest('[id^="lens-"]'))) return;
 
 
     if (el !== lastElement) {
@@ -361,15 +361,15 @@ blockedEvents.forEach(type => {
     document.addEventListener(type, (e) => {
         if (!inspectEnabled) return;
         // Don't block our own UI
-        if (e.target && e.target instanceof Element && (e.target.id && e.target.id.startsWith('miromiro-'))) return;
-        if (e.target && e.target instanceof Element && e.target.closest && e.target.closest('[id^="miromiro-"]')) return;
+        if (e.target && e.target instanceof Element && (e.target.id && e.target.id.startsWith('lens-'))) return;
+        if (e.target && e.target instanceof Element && e.target.closest && e.target.closest('[id^="lens-"]')) return;
 
         e.preventDefault();
         e.stopPropagation();
 
         if (type === 'click') {
             const el = document.elementFromPoint(e.clientX, e.clientY);
-            if (!el || !(el instanceof Element) || (el.closest && el.closest('[id^="miromiro-"]'))) return;
+            if (!el || !(el instanceof Element) || (el.closest && el.closest('[id^="lens-"]'))) return;
 
             if (pickingForAI) {
                 pickingForAI = false;

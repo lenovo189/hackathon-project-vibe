@@ -1,5 +1,5 @@
 /**
- * MiroMiro Clone - Popup Logic
+ * Lens - Popup Logic
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -218,6 +218,73 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Copy CSS Button Handler
+    copyCssBtn.onclick = () => {
+        if (!currentElementData) return;
+        const styles = currentElementData.styles;
+        let cssText = '';
+
+        Object.entries(styles).forEach(([prop, value]) => {
+            // Convert camelCase to kebab-case
+            const cssProp = prop.replace(/([A-Z])/g, '-$1').toLowerCase();
+            cssText += `${cssProp}: ${value};\n`;
+        });
+
+        copyToClipboard(cssText);
+        copyCssBtn.textContent = 'Copied! ✓';
+        setTimeout(() => {
+            copyCssBtn.textContent = 'Copy CSS';
+        }, 2000);
+    };
+
+    // Copy Tailwind Button Handler
+    copyTailwindBtn.onclick = () => {
+        if (!currentElementData) return;
+        const tailwindClasses = convertToTailwind(currentElementData.styles);
+
+        copyToClipboard(tailwindClasses);
+        copyTailwindBtn.textContent = 'Copied! ✓';
+        setTimeout(() => {
+            copyTailwindBtn.textContent = 'Tailwind Utility';
+        }, 2000);
+    };
+
+    // Helper Functions
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            console.log('Copied to clipboard:', text);
+        }).catch(err => {
+            console.error('Failed to copy:', err);
+        });
+    }
+
+    function downloadSVG(svgContent, filename) {
+        const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    function downloadAsset(src, filename) {
+        const a = document.createElement('a');
+        a.href = src;
+        a.download = filename;
+        a.click();
+    }
+
+    function downloadLottie(jsonContent, filename) {
+        const blob = new Blob([jsonContent], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
     // AI Tab Elements
     const aiApiSetup = document.getElementById('ai-api-setup');
     const aiChatInterface = document.getElementById('ai-chat-interface');
@@ -430,7 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const systemInstruction = {
             parts: [{
-                text: `You are MiroMiro AI, a premium web design assistant.\nYou will be given the HTML of a component to edit. Use this as the primary context for your response.\nWhen user asks to edit an element, respond with a JSON block and a short explanation.
+                text: `You are Lens AI, a premium web design assistant.\nYou will be given the HTML of a component to edit. Use this as the primary context for your response.\nWhen user asks to edit an element, respond with a JSON block and a short explanation.
 
 Capabilities:
 - "styles": Use standard CSS (camelCase for JS style object).

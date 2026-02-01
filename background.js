@@ -1,5 +1,5 @@
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('MiroMiro Clone Extension Installed');
+  console.log('Lens Extension Installed');
   chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
 });
 

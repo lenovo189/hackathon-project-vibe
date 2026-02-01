@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "MiroMiro Clone - Premium Inspector",
+  "name": "Lens - Premium Inspector",
   "version": "1.0",
   "description": "Premium element inspector, asset extractor, and style-to-tailwind converter.",
   "permissions": [
